@@ -1,5 +1,5 @@
 """
-<plugin key="soundtouch" name="Bose Soundtouch" author="Charly Hue" version="0.0.1">
+<plugin key="soundtouch" name="Bose Soundtouch" author="Charly Hue" version="0.0.2">
     <params>
 
         <param field="Address" label="IP Address" width="200px" required="true" default="0.0.0.0"/>
@@ -32,6 +32,7 @@ class BasePlugin:
 
     def __init__(self):
         self.__runAgain = 0
+        self.__runChoice = 0
         return
 
     def onStart(self):
@@ -172,8 +173,12 @@ class BasePlugin:
             # Execute your command
         else:
             Domoticz.Debug("onHeartbeat called, run again in " + str(self.__runAgain) + " heartbeats.")
-            self.get('/now_playing')
-            self.get('/volume')
+            if self.__runChoice == 0:
+                self.get('/now_playing')
+                self.__runChoice = 1
+            elif self.__runChoice == 1:
+                self.get('/volume')
+                self.__runChoice = 0
 
 
     def send(self, verb, url, data):
