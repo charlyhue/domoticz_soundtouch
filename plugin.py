@@ -126,8 +126,9 @@ class BasePlugin:
         if Unit == self.__UNIT_SOURCE:
             if Command == 'Set Level' or Command == 'Off':
                 if Level == 0:
-                    self.post('/key', '<key state="press" sender="Gabbo">POWER</key>')
-                    self.post('/key', '<key state="release" sender="Gabbo">POWER</key>')
+                    if Devices[self.__UNIT_SOURCE].nValue != 0:
+                        self.post('/key', '<key state="press" sender="Gabbo">POWER</key>')
+                        self.post('/key', '<key state="release" sender="Gabbo">POWER</key>')
                 elif Level == 10:
                     self.post('/select', '<ContentItem source="PRODUCT" sourceAccount="TV"></ContentItem>')
                 elif Level == 20:
